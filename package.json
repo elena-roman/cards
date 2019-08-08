@@ -1,0 +1,13 @@
+{
+  "name": "sync-php",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": " ./vendor/bin/phpcs --ignore=*/vendor/* ./src --standard=PSR2",
+    "lint:fix": " ./vendor/bin/phpcbf --ignore=*/vendor/* ./src --standard=PSR2",
+    "tests": " ./vendor/bin/phpunit --bootstrap vendor/autoload.php ./tests"
+  },
+  "author": "",
+  "license": "ISC"
+}

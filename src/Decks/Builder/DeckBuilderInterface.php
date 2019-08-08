@@ -4,5 +4,5 @@ namespace CardGame\Decks\Builder;
 
 interface DeckBuilderInterface
 {
-    function build();
+    public function build();
 }

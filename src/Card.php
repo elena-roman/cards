@@ -97,7 +97,7 @@ class Card
      */
     public function isEqual(Card $card): bool
     {
-        return $card->suit === $this->suit && $this->number === $card->suit;
+        return $card->suit === $this->suit && $this->number === $card->number;
     }
 
     public static function getSuites(): array
@@ -114,6 +114,4 @@ class Card
     {
         return $this->getName() . $this->getSuitIcon();
     }
-
-
 }

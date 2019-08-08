@@ -34,33 +34,36 @@ class Game
 
     public function start()
     {
-        // Build a deck
-        $deck = (new OrderedStandardDeckBuilder())->build();
+        try {
+            // Build a deck
+            $deck = (new OrderedStandardDeckBuilder())->build();
 
-        // Shuffle the cards
-        $deck = (new NoSequenceStandardDeckShuffler())->shuffle($deck);
-        print_r($deck);die();
+            // Shuffle the cards
+            $deck = (new NoSequenceStandardDeckShuffler())->shuffle($deck);
 
-        // Deal the cards
-        $cards = $deck->getCards();
-        for ($i = 0; $i < $this->noCardsDealt; $i++) {
-            /** @var Player $player */
-            foreach ($this->players as $player) {
-                $card = array_pop($cards);
-                $player->getDeck()->addCard($card);
+            // Deal the cards
+            $cards = $deck->getCards();
+            for ($i = 0; $i < $this->noCardsDealt; $i++) {
+                /** @var Player $player */
+                foreach ($this->players as $player) {
+                    $card = array_pop($cards);
+                    $player->getDeck()->addCard($card);
+                }
             }
+        } catch (\Exception $ex) {
+            dd($ex->getMessage());
         }
     }
 
-    public function print() {
+    public function print()
+    {
         /** @var Player $player */
         foreach ($this->players as $player) {
             echo  sprintf(
-                "\n Player %s has received %s",
+                "\n Player %s has received %s \n",
                 $player->getName(),
                 implode(", ", $player->getDeck()->getCards())
             );
         }
     }
 }
-

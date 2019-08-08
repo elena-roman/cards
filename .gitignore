@@ -1,0 +1,6 @@
+# 3rd Party
+/vendor/
+package-lock.json
+
+# Editor
+.idea

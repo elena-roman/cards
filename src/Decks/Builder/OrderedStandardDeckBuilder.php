@@ -7,7 +7,7 @@ use CardGame\Decks\StandardDeck;
 
 class OrderedStandardDeckBuilder implements DeckBuilderInterface
 {
-    function build(): StandardDeck
+    public function build(): StandardDeck
     {
         $deck = new StandardDeck();
 

@@ -4,5 +4,5 @@ namespace CardGame\Decks\Shuffler;
 
 interface DeckShufflerInterface
 {
-    function shuffle($deck);
+    public function shuffle($deck);
 }

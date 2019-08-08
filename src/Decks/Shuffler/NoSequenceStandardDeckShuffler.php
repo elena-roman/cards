@@ -15,42 +15,35 @@ class NoSequenceStandardDeckShuffler implements DeckShufflerInterface
         return $newDeck;
     }
 
+
     /**
      * @param StandardDeck $deck
      * @param StandardDeck $candidates
      * @return bool
+     * @throws \Exception
      */
     private function buildDeck(StandardDeck &$deck, StandardDeck $candidates): bool
     {
-        // Completed
         if ($deck->isCompleted()) {
             return true;
         }
 
-        // Possible candidates
         $cards = $candidates->getCards();
-        do {
-            // Get one possible card
-            $index = rand(0, count($cards) - 1);
-            $card = $cards[$index];
+        shuffle($cards);
 
-            // Remove it from possible
-            unset($cards[$index]);
-            $cards = array_values($cards);
-
+        foreach ($cards as $card) {
             if ($this->isValid($deck, $card)) {
                 $deck->addCard($card);
+
                 $candidates->removeCard($card);
-
-                if (!$this->buildDeck($deck, $candidates)) {
-                    array_pop($deck->getCards());
-                    $candidates->addCard($card);
+                if ($this->buildDeck($deck, $candidates)) {
+                    return true;
                 }
+
+                $candidates->addCard($card);
+                $deck->removeCard($card);
             }
-
-        } while (!empty($cards));
-
-        return false;
+        }
     }
 
     /**
@@ -64,9 +57,15 @@ class NoSequenceStandardDeckShuffler implements DeckShufflerInterface
             return true;
         }
 
-        /** @var Card $a */
-        $a = array_pop($deck->getCards());
+        /** @var Card $lastCard */
+        $lastCard = $deck->getCards()[count($deck->getCards()) - 1];
 
-        return ($a->getNumber() === $card->getNumber() - 1);
+        /**
+         * So... didn't really understood what was meant by sequence
+         * I'm just checking if there is a sequence no matter the card suit
+         * To add check by card suit it's just one extra line here
+         */
+        return ($lastCard->getNumber() !== ($card->getNumber() - 1)) ||
+            ($lastCard->getNumber() !== ($card->getNumber() + 1));
     }
 }

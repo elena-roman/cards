@@ -4,14 +4,15 @@ namespace CardGame\Decks;
 
 use CardGame\Card;
 
-abstract class Deck
+class Deck
 {
     private $cards = [];
 
     /**
      * Deck constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->cards = [];
     }
 
@@ -42,18 +43,27 @@ abstract class Deck
     /**
      * @return bool
      */
-    public function isEmpty() : bool {
+    public function isEmpty() : bool
+    {
         return empty($this->cards);
     }
 
     /**
      * Remove a card from the deck
      * @param $card
+     * @throws \Exception
      */
-    public function removeCard($card) : void {
-        array_filter($this->cards, function (Card $c) use ($card) {
+    public function removeCard($card) : void
+    {
+        if ($this->isEmpty()) {
+            throw new \Exception('Empty deck nothing to remove');
+        }
+
+        $cards = array_filter($this->cards, function (Card $c) use ($card) {
             return !$c->isEqual($card);
         });
+
+        $this->cards = array_values($cards);
     }
 
     /**
@@ -70,12 +80,11 @@ abstract class Deck
         return count($cards) > 0;
     }
 
-    abstract public function isCompleted(): bool;
-
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return implode(",", $this->cards);
     }
-
-
 }
